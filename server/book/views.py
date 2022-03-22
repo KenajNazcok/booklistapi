@@ -1,12 +1,22 @@
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView
+from rest_framework.filters import SearchFilter
+from rest_framework.generics import ListAPIView
 
 import requests
 
 from .forms import BookForm
 from .models import Book
+from .serializer import BookSerializer
 from .utils import read_date
+
+
+class BookListAPIView(ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ["author", "title", "publication_language"]
 
 
 def all_books(request):

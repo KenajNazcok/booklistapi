@@ -7,21 +7,36 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Book',
+            name="Book",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('author', models.CharField(max_length=255)),
-                ('publication_date', models.DateField(blank=True, null=True)),
-                ('isbn_number', models.PositiveBigIntegerField(blank=True, null=True, unique=True)),
-                ('number_of_pages', models.PositiveSmallIntegerField(blank=True, null=True)),
-                ('cover_link', models.URLField()),
-                ('publication_language', models.CharField(max_length=255)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255)),
+                ("author", models.CharField(max_length=255)),
+                ("publication_date", models.DateField(blank=True, null=True)),
+                (
+                    "isbn_number",
+                    models.PositiveBigIntegerField(
+                        blank=True, null=True, unique=True
+                    ),
+                ),
+                (
+                    "number_of_pages",
+                    models.PositiveSmallIntegerField(blank=True, null=True),
+                ),
+                ("cover_link", models.URLField()),
+                ("publication_language", models.CharField(max_length=255)),
             ],
         ),
     ]

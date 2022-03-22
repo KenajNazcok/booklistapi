@@ -1,3 +1,118 @@
-from django.shortcuts import render
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import ListView
 
-# Create your views here.
+import requests
+
+from .forms import BookForm
+from .models import Book
+from .utils import read_date
+
+
+def all_books(request):
+    books = Book.objects.all()
+    return render(request, "books.html", {"books": books})
+
+
+def add_book(request):
+    form = BookForm(request.POST or None, request.FILES or None)
+
+    if form.is_valid():
+        form.save()
+        return redirect(all_books)
+
+    return render(request, "book_form.html", {"form": form})
+
+
+def edit_book(request, id):
+    book = get_object_or_404(Book, pk=id)
+    form = BookForm(request.POST or None, request.FILES or None, instance=book)
+
+    if form.is_valid():
+        form.save()
+        return redirect(all_books)
+
+    return render(request, "book_form.html", {"form": form})
+
+
+def delete_book(request, id):
+    book = get_object_or_404(Book, pk=id)
+
+    if request.method == "POST":
+        book.delete()
+        return redirect(all_books)
+
+    return render(request, "submit_to_delete.html", {"book": book})
+
+
+def searched_data(request):
+    if request.method == "POST" and "searched" in request.POST:
+        searched = request.POST["searched"]
+        qs = (
+            Q(author__contains=searched)
+            | Q(title__contains=searched)
+            | Q(publication_language__contains=searched)
+        )
+        data = Book.objects.filter(qs)
+        return render(
+            request,
+            "searched_data.html",
+            {"searched": searched, "books": data},
+        )
+    else:
+        displaydata = Book.objects.all()
+        return render(request, "books.html", {"books": displaydata})
+
+
+def searched_results(request):
+    if request.method == "POST":
+        fromdate = request.POST.get("fromdate")
+        todate = request.POST.get("todate")
+        searched_results = Book.objects.all()
+        return render(request, "books.html", {"books": searched_results})
+    else:
+        displaydata = Book.objects.all()
+        return render(request, "books.html", {"books": displaydata})
+
+
+def book_downloader(request):
+    search = request.POST["search"]
+
+    if not search:
+        return redirect("/books/all/")
+
+    params = {"q": search}
+    response: requests.Response = requests.get(
+        "https://www.googleapis.com/books/v1/volumes", params=params
+    )
+    data = response.json()
+
+    books = []
+    for book in data["items"]:
+        book_data = book["volumeInfo"]
+
+        # Utils
+        isbn_number = None
+        for iid in book_data.get("industryIdentifiers", []):
+            if iid["type"] == "ISBN_13":
+                isbn_number = iid["identifier"]
+                break
+            elif iid["type"] == "ISBN_10":
+                isbn_number = iid["identifier"]
+
+        title = book_data["title"]
+        author = ", ".join(book_data.get("authors", ""))
+
+        defaults = {
+            "publication_date": read_date(book_data.get("publishedDate", "")),
+            "isbn_number": isbn_number,
+            "number_of_pages": book_data.get("pageCount"),
+            "cover_link": book_data.get("imageLinks", {}).get("thumbnail", ""),
+            "publication_language": book_data.get("language", ""),
+        }
+        book, _ = Book.objects.get_or_create(
+            title=title, author=author, defaults=defaults
+        )
+        books.append(book)
+
+    return render(request, "book_downloader.html", {"books": books})

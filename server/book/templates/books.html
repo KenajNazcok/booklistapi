@@ -1,0 +1,81 @@
+{% extends 'main.html' %}
+{% block title %} List of books {% endblock %}
+{% block page %}
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+    <p></p>
+    {% if books|length == 0 %}
+        <h2>No books available</h2>
+    {% else %}
+        <center><h2>Booklist</h2></center>
+        <p></p>
+        <a href="{% url 'add_book' %}">Add Book<i class="far fa-plus-square"></i></a>
+        <a href="{% url 'api_list' %}">Go to REST API View</i></a>
+        <p></p>
+
+        <hr/>
+        <form class="d-flex" method="post" action="{% url 'searched_data' %}">
+            {% csrf_token %}
+            <input class="from-control me-2" type="search" placeholder="Search for... " name = "searched">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </form>
+        <hr/>
+        <form class="d-flex" method="post" action="{% url 'book_downloader' %}">
+            {% csrf_token %}
+            <input class="from-control me-2" type="search" placeholder="Download..." name = "search">
+            <button class="btn btn-outline-secondary" type="submit">Download</button>
+        </form>
+            <br/>
+            <h5>Filter records</h5>
+            <form method="post">
+                {% csrf_token %}
+                From:<input type='date' name='fromdate'/>
+                To:<input type='date' name='todate'/>
+                <input type='submit' value='Search'/>
+                <table>
+                    <hr/>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Publication Date</th>
+                        <th>ISBN Number</th>
+                        <th>Number of pages</th>
+                        <th>Cover</th>
+                        <th>Publication language</th>
+                        <th>Edit film</th>
+                        <th>Delete Film</th>
+                    </tr>
+                    {% for book in books %}
+                        <tr>
+                            <td>{{book.id}}</td>
+                            <td>{{book.title}}</td>
+                            <td>{{book.author}}</td>
+                            <td>{{book.publication_date}}</td>
+                            <td>{{book.isbn_number}}</td>
+                            <td>{{book.number_of_pages}}</td>
+                            <td><a href="{{book.cover_link}}">Check cover</a></td>
+                            <td>{{book.publication_language}}</td>
+                            <td><a href="{% url 'edit_book' book.id %}"><i class ="fas fa-1x fa-edit"></i></td>
+                                <td><a href="{% url 'delete_book' book.id %}"><i class ="fas fa-1x fa-trash-alt"></i></td>
+                                </tr>
+
+                    {% endfor %}
+                </form>
+    {% endif %}
+{% endblock %}

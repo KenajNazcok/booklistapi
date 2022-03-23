@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
-
+import django_heroku
 from decouple import config
 from dj_database_url import parse as dburl
 
@@ -124,3 +124,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "my_static")
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+djago_heroku.settings(locals())

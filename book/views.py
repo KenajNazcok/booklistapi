@@ -1,6 +1,5 @@
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import ListView
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import ListAPIView
 
@@ -69,17 +68,6 @@ def searched_data(request):
             "searched_data.html",
             {"searched": searched, "books": data},
         )
-    else:
-        displaydata = Book.objects.all()
-        return render(request, "books.html", {"books": displaydata})
-
-
-def searched_results(request):
-    if request.method == "POST":
-        fromdate = request.POST.get("fromdate")
-        todate = request.POST.get("todate")
-        searched_results = Book.objects.all()
-        return render(request, "books.html", {"books": searched_results})
     else:
         displaydata = Book.objects.all()
         return render(request, "books.html", {"books": displaydata})

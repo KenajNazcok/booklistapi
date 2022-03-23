@@ -1,4 +1,4 @@
-from django.forms import fields, ModelForm
+from django.forms import ModelForm
 
 from .models import Book
 

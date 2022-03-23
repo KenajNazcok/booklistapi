@@ -3,7 +3,7 @@ from django.urls import include, path
 from . import views
 
 urlpatterns = [
-    path("all/", views.all_books, name="all_books"),
+    path("", views.all_books, name="all_books"),
     path("add/", views.add_book, name="add_book"),
     path("edit/<int:id>/", views.edit_book, name="edit_book"),
     path("delete/<int:id>/", views.delete_book, name="delete_book"),

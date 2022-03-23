@@ -37,16 +37,10 @@
         <hr/>
         <form class="d-flex" method="post" action="{% url 'book_downloader' %}">
             {% csrf_token %}
-            <input class="from-control me-2" type="search" placeholder="Download..." name = "search">
+            <input class="from-control me-2" type="search" placeholder="Download data" name = "search">
             <button class="btn btn-outline-secondary" type="submit">Download</button>
         </form>
-            <br/>
-            <h5>Filter records</h5>
-            <form method="post">
-                {% csrf_token %}
-                From:<input type='date' name='fromdate'/>
-                To:<input type='date' name='todate'/>
-                <input type='submit' value='Search'/>
+
                 <table>
                     <hr/>
                     <tr>
@@ -76,6 +70,5 @@
                                 </tr>
 
                     {% endfor %}
-                </form>
     {% endif %}
 {% endblock %}

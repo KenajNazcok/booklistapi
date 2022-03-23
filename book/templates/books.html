@@ -1,4 +1,5 @@
 {% extends 'main.html' %}
+{% load bootstrap %}
 {% block title %} List of books {% endblock %}
 {% block page %}
     <style>
@@ -24,17 +25,28 @@
     {% else %}
         <center><h2>Booklist</h2></center>
         <p></p>
-        <a href="{% url 'add_book' %}">Add Book<i class="far fa-plus-square"></i></a>
-        <a href="{% url 'api_list' %}">Go to REST API View</i></a>
+        <body>
+            <button onclick="window.location.href='{% url 'add_book' %}';">
+                Create New Book
+            </button>
+        </body>
+        <body>
+            <button onclick="window.location.href='{% url 'api_list' %}';">
+                Go to REST API Documentation
+            </button>
+        </body>
+
         <p></p>
 
         <hr/>
+        <p>You can search for Author, Book Title or Publication Language</p>
         <form class="d-flex" method="post" action="{% url 'searched_data' %}">
             {% csrf_token %}
             <input class="from-control me-2" type="search" placeholder="Search for... " name = "searched">
             <button class="btn btn-outline-secondary" type="submit">Search</button>
         </form>
         <hr/>
+        <p>You can download data by entering the Author, Book Title or Publication Language</p>
         <form class="d-flex" method="post" action="{% url 'book_downloader' %}">
             {% csrf_token %}
             <input class="from-control me-2" type="search" placeholder="Download data" name = "search">

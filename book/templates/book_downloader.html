@@ -18,7 +18,11 @@
             background-color: #dddddd;
         }
     </style>
-    <a href="{% url 'all_books' %}">Download complete, back to previous page</a>
+    <body>
+        <button onclick="window.location.href='{% url 'all_books' %}';">
+            Download complete, back to previous page
+        </button>
+    </body>
     <p></p>
 
     <table>

@@ -8,5 +8,9 @@
         {{ form|bootstrap }}
         <button type="submit"> Add Book </button>
     </form>
-    <a href="{% url 'all_books' %}">Undo</a>
+    <body>
+        <button onclick="window.location.href='{% url 'all_books' %}';">
+            Go to previous page
+        </button>
+    </body>
 {% endblock %}]

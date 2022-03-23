@@ -2,6 +2,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import ListAPIView
+from django.contrib.auth.decorators import login_required
 
 import requests
 
@@ -9,7 +10,6 @@ from .forms import BookForm
 from .models import Book
 from .serializer import BookSerializer
 from .utils import read_date
-
 
 class BookListAPIView(ListAPIView):
     queryset = Book.objects.all()
@@ -23,6 +23,7 @@ def all_books(request):
     return render(request, "books.html", {"books": books})
 
 
+@login_required
 def add_book(request):
     form = BookForm(request.POST or None, request.FILES or None)
 
@@ -33,6 +34,7 @@ def add_book(request):
     return render(request, "book_form.html", {"form": form})
 
 
+@login_required
 def edit_book(request, id):
     book = get_object_or_404(Book, pk=id)
     form = BookForm(request.POST or None, request.FILES or None, instance=book)
@@ -44,6 +46,7 @@ def edit_book(request, id):
     return render(request, "book_form.html", {"form": form})
 
 
+@login_required
 def delete_book(request, id):
     book = get_object_or_404(Book, pk=id)
 
@@ -72,7 +75,7 @@ def searched_data(request):
         displaydata = Book.objects.all()
         return render(request, "books.html", {"books": displaydata})
 
-
+@login_required
 def book_downloader(request):
     search = request.POST["search"]
 

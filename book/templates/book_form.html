@@ -3,13 +3,15 @@
 {% block title %} Book form {% endblock %}
 
 {% block page %}
+    <p></p>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|bootstrap }}
-        <button type="submit"> Add Book </button>
+        <button type="submit" class="btn btn-success"> Add Book </button>
     </form>
+    <p></p>
     <body>
-        <button onclick="window.location.href='{% url 'all_books' %}';">
+        <button class="btn btn-secondary" onclick="window.location.href='{% url 'all_books' %}';">
             Go to previous page
         </button>
     </body>

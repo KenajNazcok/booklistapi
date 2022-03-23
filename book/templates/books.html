@@ -19,22 +19,28 @@
             background-color: #dddddd;
         }
     </style>
-    <p></p>
     {% if books|length == 0 %}
         <h2>No books available</h2>
     {% else %}
-        <center><h2>Booklist</h2></center>
+    <center><h2>Booklist</h2></center>
+    <div class="jumbotron">
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="btn btn-success">Logout <i class="fas fa-sign-out-alt"></i></a>
+        {% else %}
+        <a href="{% url 'login' %}" class="btn btn-success">Login <i class="fas fa-sign-in-alt"></i></a>
+        {% endif %}
+    </div>
+    <p></p>
+
         <p></p>
-        <body>
-            <button onclick="window.location.href='{% url 'add_book' %}';">
-                Create New Book
-            </button>
-        </body>
-        <body>
-            <button onclick="window.location.href='{% url 'api_list' %}';">
-                Go to REST API Documentation
-            </button>
-        </body>
+        <form method="get" action="{% url 'add_book' %}">
+            <button type="submit" class="btn btn-secondary">Create New Book </i></button>
+        </form>
+        <p></p>
+        <form method="get" action="{% url 'api_list' %}">
+            <button type="submit" class="btn btn-secondary">Go to REST API Documentation </i></button>
+        </form>
+
 
         <p></p>
 

@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
-
+import django_heroku
 from decouple import config
 from dj_database_url import parse as dburl
 
@@ -74,12 +74,9 @@ TEMPLATES = [
 WSGI_APPLICATION = "booklist.wsgi.application"
 
 
-default_dburl = "sqlite:///" + os.path.join(BASE_DIR, "db.sqlite")
+default_dburl = "sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3")
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": config("DATABASE_URL", default=default_dburl, cast=dburl),
 }
 
 
@@ -123,8 +120,10 @@ STATIC_URL = "/static/"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "my_static")
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+django_heroku.settings(locals())

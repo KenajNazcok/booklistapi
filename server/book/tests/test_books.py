@@ -2,6 +2,7 @@ import pdb
 
 from django.test import Client
 from django.urls import resolve, reverse
+
 from pytest_django.asserts import assertTemplateUsed
 
 from book.forms import BookForm
@@ -21,7 +22,6 @@ def test_missing_status_code():
     client = Client()
     response = client.get("/nothing")
     assert response.status_code == 404
-
 
 
 def test_books_url_is_resolved():
@@ -58,24 +58,37 @@ def test_books_url_is_resolved():
     url = reverse("book_downloader")
     assert resolve(url).func == book_downloader
 
+
 def test_book_model(db):
-    
+
     book = Book.objects.create(
         title="mikołajek",
         author=["Rene Goscinny", "Jean Jacques Sempe "],
-        publication_date='1960-01-01',
-        isbn_number='9788420447865',
-        number_of_pages='176',
+        publication_date="1960-01-01",
+        isbn_number="9788420447865",
+        number_of_pages="176",
         cover_link="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQNnnrnJQkHS3I8j9zQmAFBQ851znO-b_jDcJ7yrTEQ08iZ7BIE",
-        publication_language="fr"
+        publication_language="fr",
     )
 
-    field_label = book._meta.get_field('title',).verbose_name
-    field_label = book._meta.get_field('author',).verbose_name
-    field_label = book._meta.get_field('publication_date',).verbose_name
-    field_label = book._meta.get_field('isbn_number',).verbose_name
-    field_label = book._meta.get_field('number_of_pages',).verbose_name
-    field_label = book._meta.get_field('cover_link',).verbose_name
-    field_label = book._meta.get_field('publication_language',).verbose_name
-    
-    
+    field_label = book._meta.get_field(
+        "title",
+    ).verbose_name
+    field_label = book._meta.get_field(
+        "author",
+    ).verbose_name
+    field_label = book._meta.get_field(
+        "publication_date",
+    ).verbose_name
+    field_label = book._meta.get_field(
+        "isbn_number",
+    ).verbose_name
+    field_label = book._meta.get_field(
+        "number_of_pages",
+    ).verbose_name
+    field_label = book._meta.get_field(
+        "cover_link",
+    ).verbose_name
+    field_label = book._meta.get_field(
+        "publication_language",
+    ).verbose_name

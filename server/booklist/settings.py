@@ -126,4 +126,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, "my_static")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-djago_heroku.settings(locals())
+django_heroku.settings(locals())

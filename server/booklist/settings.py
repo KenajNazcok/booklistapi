@@ -74,13 +74,8 @@ TEMPLATES = [
 WSGI_APPLICATION = "booklist.wsgi.application"
 
 
-default_dburl = "sqlite:///" + os.path.join(BASE_DIR, "db.sqlite")
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
+default_dburl = "sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3")
+DATABASES = {'default': config('DATABASE_URL',default=default_dburl,cast=dburl),}
 
 
 # Password validation
@@ -122,7 +117,6 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "my_static")
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

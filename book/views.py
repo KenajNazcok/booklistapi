@@ -88,8 +88,6 @@ def book_downloader(request):
     books = []
     for book in data["items"]:
         book_data = book["volumeInfo"]
-
-        # Utils
         isbn_number = None
         for iid in book_data.get("industryIdentifiers", []):
             if iid["type"] == "ISBN_13":

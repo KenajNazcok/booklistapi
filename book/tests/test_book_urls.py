@@ -5,7 +5,6 @@ from book.views import (
     add_book,
     all_books,
     book_downloader,
-    BookListAPIView,
     delete_book,
     edit_book,
     searched_data,
@@ -29,23 +28,18 @@ def test_add_book_url_is_resolved():
 
 
 def test_edit_book_url_is_resolved():
-    url = reverse("edit_book")
+    url = reverse("edit_book", args=[1])
     assert resolve(url).func == edit_book
 
 
 def test_delete_book_url_is_resolved():
-    url = reverse("delete_book")
+    url = reverse("delete_book", args=[1])
     assert resolve(url).func == delete_book
 
 
 def test_searched_data_url_is_resolved():
     url = reverse("searched_data")
     assert resolve(url).func == searched_data
-
-
-def test_api_list_is_resolved():
-    url = reverse("api_list")
-    assert resolve(url).func == BookListAPIView
 
 
 def test_book_downloader_is_resolved():

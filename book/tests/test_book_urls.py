@@ -18,7 +18,7 @@ def test_missing_status_code():
 
 
 def test_all_books_url_is_resolved():
-    url = reverse("all_books")
+    url = reverse("")
     assert resolve(url).func == all_books
 
 

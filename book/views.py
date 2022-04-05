@@ -1,8 +1,8 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import ListAPIView
-from django.contrib.auth.decorators import login_required
 
 import requests
 
@@ -10,6 +10,7 @@ from .forms import BookForm
 from .models import Book
 from .serializer import BookSerializer
 from .utils import read_date
+
 
 class BookListAPIView(ListAPIView):
     queryset = Book.objects.all()
@@ -74,6 +75,7 @@ def searched_data(request):
     else:
         displaydata = Book.objects.all()
         return render(request, "books.html", {"books": displaydata})
+
 
 @login_required
 def book_downloader(request):

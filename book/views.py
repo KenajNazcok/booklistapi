@@ -96,7 +96,7 @@ def book_downloader(request):
         isbn_number = None
         for iid in book_data.get("industryIdentifiers", []):
             if iid["type"] == "ISBN_13":
-                isbn_number = iid["identifier"]
+                isbn_number = iid["iden tifier"]
                 break
             elif iid["type"] == "ISBN_10":
                 isbn_number = iid["identifier"]

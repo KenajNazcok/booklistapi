@@ -9,7 +9,7 @@ def test_read_date():
     dt3 = "2022"
     dt4 = ""
 
-    assert read_date(dt1) == datetime.datetime(2022, 4, 5)
-    assert read_date(dt2) == datetime.datetime(2022, 4)
-    assert read_date(dt3) == datetime.datetime(2022)
-    assert read_date(dt4) == datetime.datetime()
+    assert read_date(dt1) == datetime.date(2022, 4, 5)
+    assert read_date(dt2) == datetime.date(2022, 4 , 1)
+    assert read_date(dt3) == datetime.date(2022, 1, 1)
+    assert read_date(dt4) == None
